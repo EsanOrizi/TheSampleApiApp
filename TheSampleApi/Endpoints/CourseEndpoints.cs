@@ -11,14 +11,41 @@ namespace TheSampleApi.Endpoints
             app.MapGet("/courses/{id}", LoadCourseById);
         }
 
-        private static IResult LoadAllCourses(CourseData data)
+        private static IResult LoadAllCourses(
+            CourseData data, 
+            string? courseType,
+            string? search)
         {
-            return Results.Ok(data.Courses);
+
+            var output = data.Courses;
+
+            if (string.IsNullOrWhiteSpace(courseType) == false)
+            {
+                output.RemoveAll(x => string.Compare(
+                    x.CourseType,
+                    courseType,
+                    StringComparison.OrdinalIgnoreCase) != 0);
+            }
+
+            if (string.IsNullOrWhiteSpace(search) == false)
+            {
+                output.RemoveAll(x => !x.CourseName.Contains(search, StringComparison.OrdinalIgnoreCase) &&
+                !x.ShortDescription.Contains(search, StringComparison.OrdinalIgnoreCase)
+                );
+            }
+
+            return Results.Ok(output);
         }
 
         private static IResult LoadCourseById(CourseData data, int id)
         {
-            return Results.Ok(data.Courses.SingleOrDefault(x => x.Id == id));
+            var output = data.Courses.SingleOrDefault(x => x.Id == id);
+
+            if (output is null)
+            {
+                return Results.NotFound();
+            }
+            return Results.Ok(output);
         }
     }
 

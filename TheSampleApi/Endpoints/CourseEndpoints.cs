@@ -7,10 +7,23 @@ namespace TheSampleApi.Endpoints
     {
         public static void AddCourseEndpoints(this WebApplication app)
         {
-            app.MapGet("/courses", (CourseData data) =>
-            {
-                return data.Courses;
-            });
+            app.MapGet("/courses", LoadAllCourses);
+            app.MapGet("/courses/{id}", LoadCourseById);
+        }
+
+        private static IResult LoadAllCourses(CourseData data)
+        {
+            return Results.Ok(data.Courses);
+        }
+
+        private static IResult LoadCourseById(CourseData data, int id)
+        {
+            return Results.Ok(data.Courses.SingleOrDefault(x => x.Id == id));
         }
     }
+
+
+
 }
+
+    

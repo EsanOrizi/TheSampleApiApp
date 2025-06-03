@@ -7,6 +7,7 @@ public static class DependenciesConfig
     public static void AddDependencies(this WebApplicationBuilder builder)
     {
         builder.Services.AddOpenApiServices();
+        builder.Services.AddOCorsServices();
         builder.Services.AddTransient<CourseData>();
     }
     

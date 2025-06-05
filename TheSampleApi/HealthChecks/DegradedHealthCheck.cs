@@ -9,6 +9,6 @@ public class DegradedHealthCheck : IHealthCheck
         CancellationToken cancellationToken = default)
     {
         return Task.FromResult(
-                HealthCheckResult.Healthy("The is a test degraded service."));
+                HealthCheckResult.Degraded("The is a test degraded service."));
     }
 }

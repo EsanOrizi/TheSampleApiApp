@@ -12,5 +12,5 @@ public class UnhealthyHealthCheck : IHealthCheck
             HealthCheckResult.Unhealthy("The is a test unhealthy service."));
     }
 }
-{
-}
+
+
